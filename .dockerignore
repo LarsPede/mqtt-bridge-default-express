@@ -1,0 +1,6 @@
+.env
+.gitignore
+.git
+.idea/
+node_modules/
+*.iml
