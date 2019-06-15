@@ -1,13 +1,13 @@
-var express = require('express');
-var mqtt = require('mqtt');
-var router = express.Router();
+const express = require('express');
+const mqtt = require('mqtt');
+const router = express.Router();
 const {mqttHost, mqttPass, mqttTopic, mqttUser, mqttPort} = require('../config');
 
 
-var host = mqttHost;
-var topic = mqttTopic;
+const host = mqttHost;
+const topic = mqttTopic;
 
-var options = {
+const options = {
     port: mqttPort,
     username: mqttUser,
     clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
@@ -20,17 +20,17 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-    var client = mqtt.connect(host, options);
+    const client = mqtt.connect(host, options);
 
     client.on('connect', function () {
         client.publish(topic, JSON.stringify(req.body), {retain: true}, function (err) {
             if (!err) {
-                client.end();
                 return res.send('success sending: ' + req.body)
             } else {
                 return res.send(err)
             }
-        })
+        });
+        client.end();
     });
 });
 
