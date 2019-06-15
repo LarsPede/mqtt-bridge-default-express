@@ -25,7 +25,7 @@ router.post('/', function (req, res, next) {
     client.on('connect', function () {
         client.publish(topic, JSON.stringify(req.body), {retain: true}, function (err) {
             if (!err) {
-                return res.send('success sending: ' + req.body)
+                return res.send(`success sending: ${JSON.stringify(req.body)}`)
             } else {
                 return res.send(err)
             }
