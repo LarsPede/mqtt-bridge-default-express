@@ -23,15 +23,14 @@ router.post('/', function (req, res, next) {
     var client = mqtt.connect(host, options);
 
     client.on('connect', function () {
-        client.subscribe(topic, function (err) {
+        client.publish(topic, JSON.stringify(req.body), {retain: true}, function (err) {
             if (!err) {
-                client.publish(topic, JSON.stringify(req.body), {retain: true})
+                return res.send('success sending: ' + req.body)
             } else {
                 return res.send(err)
             }
         })
     });
-    return res.send('success sending: ' + req.body)
 });
 
 module.exports = router;
